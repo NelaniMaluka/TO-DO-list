@@ -18,6 +18,16 @@ def addTask():
             taskfile.write(f"\n{task}")
         task_list.append(task)
         listbox.insert(END, task)
+        
+def Done_Undone():
+    myLabel = Label(frame1,text=var.get())
+    global task_list
+    task = str(listbox.get(ANCHOR))
+    
+    if task in task_list: 
+        if myLabel == 1:
+            listbox= Listbox( selectbackground="#red")
+        
 
 def deleteTask():
     global task_list
@@ -40,6 +50,7 @@ def openTaskFile():
             if task != "\n":
                 task_list.append(task)
                 listbox.insert(END , task)
+
     #if the tasklist.txt file doesnt exits then it gets created
     except:
         file= open("tasklist.txt", "w")
@@ -88,10 +99,15 @@ listbox.config(yscrollcommand=scrollbar.set)
 scrollbar.config(command=listbox.yview)
 
 openTaskFile()
+
+var = IntVar()
+c =Checkbutton(frame1, variable=var,command=Done_Undone)
+c.pack()
+
     
 #Delete Icon
 Delete_icon=PhotoImage(file="img/delete.png")
-Button(root,image=Delete_icon,bd=0, command=deleteTask).pack(side=BOTTOM, pady=13)
+Button(root,image=Delete_icon,bd=0, command=deleteTask).pack(side=BOTTOM ,pady=13)
 
 
 root.mainloop()
