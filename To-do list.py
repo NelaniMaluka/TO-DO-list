@@ -23,7 +23,7 @@ def Done_Undone(val):
     global task_list
     task = str(listbox.get(ANCHOR))
     
-
+    #checks the existamce of the task and it then adds a val next to the task on both the listbox and the tasklist.txt file 
     if task in task_list: 
         with open("tasklist.txt", "w") as taskfile:
             for task in task_list:
@@ -31,10 +31,11 @@ def Done_Undone(val):
                 task_list.append(task + val)
                 listbox.insert(END, task)
 
-def done():
+
+def done(): #function call for done function with it adding (Done) to the list item
     return (Done_Undone("   (Done)"))
 
-def undone():
+def undone(): #function call for undone function with it removing everything except the list item
     return (Done_Undone(""))
 
 def deleteTask():
