@@ -19,15 +19,23 @@ def addTask():
         task_list.append(task)
         listbox.insert(END, task)
         
-def Done_Undone():
-    myLabel = Label(frame1,text=var.get())
+def Done_Undone(val):
     global task_list
     task = str(listbox.get(ANCHOR))
     
+
     if task in task_list: 
-        if myLabel == 1:
-            listbox= Listbox( selectbackground="#red")
-        
+        with open("tasklist.txt", "w") as taskfile:
+            for task in task_list:
+                taskfile.write(task + val)
+                task_list.append(task + val)
+                listbox.insert(END, task)
+
+def done():
+    return (Done_Undone("   (Done)"))
+
+def undone():
+    return (Done_Undone(""))
 
 def deleteTask():
     global task_list
@@ -90,7 +98,7 @@ button.place(x=360,y=0)
 frame1= Frame(root,bd=3,width=700, height=280,bg="#32405b")
 frame1.pack(pady=(160,0))
 
-listbox= Listbox(frame1, font=("arial", 12), width=50, height=16, bg="#32405b",fg="white", cursor="hand2", selectbackground="#5a95ff")
+listbox= Listbox(frame1, font=("arial", 12), width=50, height=14, bg="#32405b",fg="white", cursor="hand2", selectbackground="#5a95ff")
 listbox.pack(side=LEFT, fill=BOTH, padx=2)
 scrollbar= Scrollbar(frame1)
 scrollbar.pack(side= RIGHT, fill= BOTH)
@@ -99,15 +107,20 @@ listbox.config(yscrollcommand=scrollbar.set)
 scrollbar.config(command=listbox.yview)
 
 openTaskFile()
-
-var = IntVar()
-c =Checkbutton(frame1, variable=var,command=Done_Undone)
-c.pack()
-
-    
+   
 #Delete Icon
 Delete_icon=PhotoImage(file="img/delete.png")
 Button(root,image=Delete_icon,bd=0, command=deleteTask).pack(side=BOTTOM ,pady=13)
+
+var = IntVar()
+c =Button(root,text=" Done ",  font=("arial", 12),padx=2,command=done)
+c.pack()
+c.place(y=535, x=160)
+
+var = IntVar()
+c =Button(root,text="Undone",  font=("arial", 12),padx=2,command=undone)
+c.pack()
+c.place(y=535, x=280)
 
 
 root.mainloop()
